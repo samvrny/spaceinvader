@@ -22,8 +22,9 @@
     background-color: blue;
 }
 
-.spacerock {
+.enemy {
     background-color: black;
+    border-radius: 50%;
 }
 
 .shot {
