@@ -1,0 +1,35 @@
+.flex {
+    display: flex
+}
+
+.wrap {
+    flex-wrap: wrap;
+}
+
+/* NOTE: Make bigger. For responsive, just make smaller and smaller at the right checkpoints. */
+.grid {
+    border: 2px solid green;
+    width: 300px;
+    height: 300px;
+}
+
+.grid div {
+    width: 20px;
+    height: 20px;
+}
+
+.spacecraft {
+    background-color: blue;
+}
+
+.spacerock {
+    background-color: black;
+}
+
+.shot {
+    background-color: red;
+}
+
+.bullet {
+    background-color: yellow;
+}
