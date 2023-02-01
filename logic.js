@@ -11,23 +11,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let enemiesKilled = [];
     let score = 0;
     let direction = 1;
-    let enemyId
+    let enemyId;
 
     //define the enemies TODO: make this an object later to be imported, with multiple sets of enemies
     const enemies = [
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20,
         21, 22, 23, 24, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39
-    ]
+    ];
     
     //draw the enemies on the board
-    enemies.forEach(enemy => blocks[currentEnemyIndex + enemy].classList.add('enemy'))
+    enemies.forEach(enemy => blocks[currentEnemyIndex + enemy].classList.add('enemy'));
 
     //draw user spaceship 
-    blocks[currentSpaceshipIndex].classList.add('spacecraft')
+    blocks[currentSpaceshipIndex].classList.add('spacecraft');
 
     //make the spaceship left to right
     function maneuverSpaceship(event) {
-        blocks[currentSpaceshipIndex].classList.remove('spacecraft')
+        blocks[currentSpaceshipIndex].classList.remove('spacecraft');
         switch(event.keyCode) {
             //left and right
             case 37:
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(currentSpaceshipIndex % width < width - 1) currentSpaceshipIndex +=1
                 break
 
-            //up and down TODO: Add up and down functionality
+            //up and down
             case 38:
                 if(currentSpaceshipIndex >= height + 1) currentSpaceshipIndex -=15
                 break
@@ -45,8 +45,50 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(currentSpaceshipIndex <= height * 15 - 16) currentSpaceshipIndex +=15
         }
 
-        blocks[currentSpaceshipIndex].classList.add('spacecraft')
+        blocks[currentSpaceshipIndex].classList.add('spacecraft');
     }
+
+    function moveEnemies() {
+        //check if the first and last enemies in the enemies array are hitting the right or left edge, respectively.
+        const leftEdge = enemies[0] % width === 0;;
+        const rightEdge = enemies[enemies.length -1] % width === width;
+
+        if((leftEdge && direction === -1) || (rightEdge && direction === 1)) {
+            direction = width;
+        } else if(direction === width) {
+            if(leftEdge) direction = 1;
+            else direction = -1;
+        }
+
+        for(let i=0; i <= enemies.length -1; i++) {
+            blocks[enemies[i]].classList.remove('enemy');
+        }
+
+        for(let i=0; i <= enemies.length -1; i++) {
+            enemies[i] += direction;
+        }
+
+        for(let i=0; i <= enemies.length -1; i++) {
+            blocks[enemies[i]].classList.add('enemy');
+        }
+
+        //if the spaceship runs into an enemy, the game is over
+        if(blocks[currentSpaceshipIndex].classList.contains('enemy', 'spacecraft')) {
+            scoreDisplay.textContent = 'You were killed!';
+            blocks[currentSpaceshipIndex].classList.add('shot', 'border-100');
+            clearInterval(enemyId);
+        }
+
+        //if the enemies reach the bottom of the board, the game is over
+        for(let i=0; i <= enemies.length -1; i++) {
+            if(enemies[i] > (blocks.length - (width - 1))) {
+                scoreDisplay.textContent = 'Your base was destroyed!';
+                clearInterval(enemyId);
+            }
+        }
+    }
+
+    enemyId = setInterval(moveEnemies, 1000)
 
     //listen for keys being pressed to move the spaceship
     document.addEventListener('keydown', maneuverSpaceship)
