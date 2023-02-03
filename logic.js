@@ -50,8 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function moveEnemies() {
         //check if the first and last enemies in the enemies array are hitting the right or left edge, respectively.
-        const leftEdge = enemies[0] % width === 0;;
-        const rightEdge = enemies[enemies.length -1] % width === width;
+        const leftEdge = enemies[0] % width === 0;
+        const rightEdge = enemies[enemies.length -1] % width === width -1;
 
         if((leftEdge && direction === -1) || (rightEdge && direction === 1)) {
             direction = width;
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //if the spaceship runs into an enemy, the game is over
         if(blocks[currentSpaceshipIndex].classList.contains('enemy', 'spacecraft')) {
             scoreDisplay.textContent = 'You were killed!';
-            blocks[currentSpaceshipIndex].classList.add('shot', 'border-100');
+            blocks[currentSpaceshipIndex].classList.add('shot');
             clearInterval(enemyId);
         }
 

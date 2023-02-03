@@ -9,13 +9,13 @@
 /* NOTE: Make bigger. For responsive, just make smaller and smaller at the right checkpoints. */
 .grid {
     border: 2px solid green;
-    width: 300px;
-    height: 300px;
+    width: 600px;
+    height: 600px;
 }
 
 .grid div {
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
 }
 
 .spacecraft {
@@ -33,6 +33,7 @@
 
 .shot {
     background-color: red;
+    border-radius: 0%;
 }
 
 .bullet {
