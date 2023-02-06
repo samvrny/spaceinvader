@@ -27,10 +27,6 @@
     border-radius: 50%;
 }
 
-.border-100 {
-    border-radius: 70%;
-}
-
 .shot {
     background-color: red;
     border-radius: 0%;
