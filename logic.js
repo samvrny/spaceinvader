@@ -70,7 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         for (let i = 0; i <= enemies.length - 1; i++) {
-            blocks[enemies[i]].classList.add('enemy');
+            if (!enemiesKilled.includes(i)) {
+                blocks[enemies[i]].classList.add('enemy');
+            }
         }
 
         //if the spaceship runs into an enemy, the game is over
@@ -86,6 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 scoreDisplay.textContent = 'Your spacecraft was destroyed!';
                 clearInterval(enemyId);
             }
+        }
+
+        //see if game is won
+        if (enemiesKilled.length === enemies.length) {
+            scoreDisplay.textContent = 'All enemies destoyed!'
         }
     }
 
@@ -120,10 +127,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         //listen for the user to 'fire' the spacecrafts weapons
-        switch(e.keyCode) {
+        switch (e.keyCode) {
             case 32:
-            bulletId = setInterval(moveBullet, 100)
-            break
+                bulletId = setInterval(moveBullet, 100)
+                break
         }
     }
 
