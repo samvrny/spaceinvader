@@ -19,11 +19,23 @@ document.addEventListener('DOMContentLoaded', () => {
         21, 22, 23, 24, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39
     ];
 
-    //draw the enemies on the board
-    enemies.forEach(enemy => blocks[currentEnemyIndex + enemy].classList.add('enemy'));
+    function startGame() {
+        // e.preventDefault();
 
-    //draw user spaceship 
-    blocks[currentSpaceshipIndex].classList.add('spacecraft');
+        //draw the enemies on the board
+        enemies.forEach(enemy => blocks[currentEnemyIndex + enemy].classList.add('enemy'));
+
+        //draw user spaceship 
+        blocks[currentSpaceshipIndex].classList.add('spacecraft');
+        enemyId = setInterval(moveEnemies, 500)
+    }
+
+    startGame()
+    // //draw the enemies on the board
+    // enemies.forEach(enemy => blocks[currentEnemyIndex + enemy].classList.add('enemy'));
+
+    // //draw user spaceship 
+    // blocks[currentSpaceshipIndex].classList.add('spacecraft');
 
     //make the spaceship left to right
     function maneuverSpaceship(event) {
@@ -134,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    enemyId = setInterval(moveEnemies, 500)
+    // enemyId = setInterval(moveEnemies, 500)
 
     //listen for the user to 'fire' the spacecrafts weapons
     document.addEventListener('keyup', fire)
