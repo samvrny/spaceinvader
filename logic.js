@@ -94,12 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
         let bulletId;
         let currentBulletIndex = currentSpaceshipIndex;
 
-        moveBullet = () => {
+        function moveBullet() {
             blocks[currentBulletIndex].classList.remove('bullet');
             currentBulletIndex -= width;
             blocks[currentBulletIndex].classList.add('bullet');
 
-            if (blocks[currentBulletIndex].contains('enemy')) {
+            if (blocks[currentBulletIndex].classList.contains('enemy')) {
                 blocks[currentBulletIndex].classList.remove('bullet');
                 blocks[currentBulletIndex].classList.remove('enemy');
                 blocks[currentBulletIndex].classList.add('shot');
@@ -120,16 +120,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         //listen for the user to 'fire' the spacecrafts weapons
-        document.addEventListener('keyup', e => {
-            if (e.keyCode === 32) {
-                bulletId = setInterval(moveBullet, 100)
-            }
-        })
-
+        switch(e.keyCode) {
+            case 32:
+            bulletId = setInterval(moveBullet, 100)
+            break
+        }
     }
 
     enemyId = setInterval(moveEnemies, 500)
 
+    //listen for the user to 'fire' the spacecrafts weapons
     document.addEventListener('keyup', fire)
 
     //listen for keys being pressed to move the spaceship
