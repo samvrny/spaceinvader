@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const scoreDisplay = document.getElementById('result');
     const playAgain = document.getElementById('play-again')
 
+    playAgain.textContent = 'Start Game'
+
     //declaring global variables
     let width;
     let height;
@@ -15,13 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let direction;
     let enemyId;
     let enemies;
+    let currentEnemyList;
 
     //function to start and restart the game
-    function startGame() {
+    function startGameOver() {
+        playAgain.textContent = 'Play Again'
 
         //ends the previous game
         clearInterval(enemyId);
 
+        //clears the game board from former game
         blocks.forEach(block => block.classList.remove('enemy', 'spacecraft'));
 
         //sets up a new game and/or clears an old game and resets everything
@@ -32,12 +37,68 @@ document.addEventListener('DOMContentLoaded', () => {
         enemiesKilled = [];
         score = 0;
         direction = 1;
+        currentEnemyList = 0;
 
+        //reset the score
+        scoreDisplay.textContent = score;
+
+        // //define the enemies TODO: make this an object later to be imported, with multiple sets of enemies      
+        // enemiesToUse = [
+        //     [
+        //         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20,
+        //         21, 22, 23, 24, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39
+        //     ],
+        //     [
+        //         0, 2, 4, 6, 8, 16, 18, 20, 22, 30, 32, 34, 36, 38
+        //     ],
+        //     [
+        //         1,2,3,4,5,6,7,8,9
+        //     ]
+        // ]
+
+        // //chose a random set of enemies to use for a game
+        // let selectedEnemies = Math.floor(Math.random() * enemiesToUse.length)
+        // enemies = enemiesToUse[selectedEnemies]
+
+        // //draw the enemies on the board
+        // enemies.forEach(enemy => blocks[currentEnemyIndex + enemy].classList.add('enemy'));
+
+        // // //set the score
+        // // scoreDisplay.textContent = score;
+
+        // //draw user spaceship 
+        // blocks[currentSpaceshipIndex].classList.add('spacecraft');
+        // enemyId = setInterval(moveEnemies, 500);
+
+        //listening for the keys to move and fire the spacecraft
+        document.addEventListener('keyup', fire);
+        document.addEventListener('keydown', maneuverSpaceship);
+        playAgain.blur();
+
+        setUpBoard()
+    }
+
+    //listens for the game to be started
+    playAgain.addEventListener('click', startGameOver)
+
+    function setUpBoard() {
         //define the enemies TODO: make this an object later to be imported, with multiple sets of enemies      
-        enemies = [
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20,
-            21, 22, 23, 24, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39
-        ];
+        enemiesToUse = [
+            [
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20,
+                21, 22, 23, 24, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39
+            ],
+            [
+                0, 2, 4, 6, 8, 16, 18, 20, 22, 30, 32, 34, 36, 38
+            ],
+            [
+                1, 2, 3, 4, 5, 6, 7, 8, 9
+            ]
+        ]
+
+        //chose a random set of enemies to use for a game
+        // let selectedEnemies = Math.floor(Math.random() * enemiesToUse.length)
+        enemies = enemiesToUse[currentEnemyList]
 
         //draw the enemies on the board
         enemies.forEach(enemy => blocks[currentEnemyIndex + enemy].classList.add('enemy'));
@@ -45,15 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //draw user spaceship 
         blocks[currentSpaceshipIndex].classList.add('spacecraft');
         enemyId = setInterval(moveEnemies, 500);
-
-        //listening for the keys to move and fire the spacecraft
-        document.addEventListener('keyup', fire);
-        document.addEventListener('keydown', maneuverSpaceship);
-        playAgain.blur();
     }
-
-    //listens for the game to be started
-    playAgain.addEventListener('click', startGame)
 
     //make the spaceship left to right
     function maneuverSpaceship(event) {
