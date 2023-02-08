@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    //initializing the game
+    //initializing the game by getting all the needed DOM elements together
     const blocks = document.querySelectorAll('.grid div');
     const scoreDisplay = document.getElementById('result');
+    const playAgain = document.getElementById('play-again')
 
     let width = 15;
     let height = 15;
@@ -21,16 +22,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startGame() {
         // e.preventDefault();
-
+        console.log('Click');
         //draw the enemies on the board
         enemies.forEach(enemy => blocks[currentEnemyIndex + enemy].classList.add('enemy'));
 
         //draw user spaceship 
         blocks[currentSpaceshipIndex].classList.add('spacecraft');
-        enemyId = setInterval(moveEnemies, 500)
+        enemyId = setInterval(moveEnemies, 500);
+        playAgain.blur();
     }
 
-    startGame()
+    // startGame()
+    playAgain.addEventListener('click', startGame)
+
+    // startGame()
     // //draw the enemies on the board
     // enemies.forEach(enemy => blocks[currentEnemyIndex + enemy].classList.add('enemy'));
 
@@ -147,6 +152,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // enemyId = setInterval(moveEnemies, 500)
+
+    //Listen for the game to be started
+    // playAgain.addEventListener('click', startGame)
 
     //listen for the user to 'fire' the spacecrafts weapons
     document.addEventListener('keyup', fire)
