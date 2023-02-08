@@ -23,52 +23,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function startGameOver() {
         playAgain.textContent = 'Play Again'
 
-        //ends the previous game
+        //starts or resets the game
+        currentSpaceshipIndex = 202;
+        currentEnemyList = 0;
         clearInterval(enemyId);
 
-        //clears the game board from former game
-        blocks.forEach(block => block.classList.remove('enemy', 'spacecraft'));
-
-        //sets up a new game and/or clears an old game and resets everything
-        width = 15;
-        height = 15;
-        currentSpaceshipIndex = 202;
-        currentEnemyIndex = 0;
-        enemiesKilled = [];
-        score = 0;
-        direction = 1;
-        currentEnemyList = 0;
-
         //reset the score
+        score = 0;
         scoreDisplay.textContent = score;
-
-        // //define the enemies TODO: make this an object later to be imported, with multiple sets of enemies      
-        // enemiesToUse = [
-        //     [
-        //         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20,
-        //         21, 22, 23, 24, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39
-        //     ],
-        //     [
-        //         0, 2, 4, 6, 8, 16, 18, 20, 22, 30, 32, 34, 36, 38
-        //     ],
-        //     [
-        //         1,2,3,4,5,6,7,8,9
-        //     ]
-        // ]
-
-        // //chose a random set of enemies to use for a game
-        // let selectedEnemies = Math.floor(Math.random() * enemiesToUse.length)
-        // enemies = enemiesToUse[selectedEnemies]
-
-        // //draw the enemies on the board
-        // enemies.forEach(enemy => blocks[currentEnemyIndex + enemy].classList.add('enemy'));
-
-        // // //set the score
-        // // scoreDisplay.textContent = score;
-
-        // //draw user spaceship 
-        // blocks[currentSpaceshipIndex].classList.add('spacecraft');
-        // enemyId = setInterval(moveEnemies, 500);
 
         //listening for the keys to move and fire the spacecraft
         document.addEventListener('keyup', fire);
@@ -82,17 +44,39 @@ document.addEventListener('DOMContentLoaded', () => {
     playAgain.addEventListener('click', startGameOver)
 
     function setUpBoard() {
+
+        //if there are no more sets of enemies to use, the game is over
+        if (currentEnemyList > 1) {
+            scoreDisplay.textContent = 'Youve won the game!'
+            clearInterval(enemyId);
+            return;
+        }
+
+        //clears the game board from former game
+        clearInterval(enemyId);
+        blocks.forEach(block => block.classList.remove('enemy', 'spacecraft', 'shot'));
+
+        //resets the enemy info so the new group of enemies can be set to the board
+        width = 15;
+        height = 15;
+        currentEnemyIndex = 0;
+        enemiesKilled = [];
+        direction = 1;
+
         //define the enemies TODO: make this an object later to be imported, with multiple sets of enemies      
         enemiesToUse = [
+            // [
+            //     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20,
+            //     21, 22, 23, 24, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39
+            // ],
+            // [
+            //     0, 2, 4, 6, 8, 16, 18, 20, 22, 30, 32, 34, 36, 38
+            // ],
             [
-                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20,
-                21, 22, 23, 24, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39
+                1, 2, 3,
             ],
             [
-                0, 2, 4, 6, 8, 16, 18, 20, 22, 30, 32, 34, 36, 38
-            ],
-            [
-                1, 2, 3, 4, 5, 6, 7, 8, 9
+                2,3,4
             ]
         ]
 
@@ -161,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //if the spaceship runs into an enemy, the game is over
         if (blocks[currentSpaceshipIndex].classList.contains('enemy', 'spacecraft')) {
-            scoreDisplay.textContent = 'You were killed!';
+            scoreDisplay.textContent = 'Your spacecraft was destroyed!';
             blocks[currentSpaceshipIndex].classList.add('shot');
             clearInterval(enemyId);
         }
@@ -169,15 +153,17 @@ document.addEventListener('DOMContentLoaded', () => {
         //if the enemies reach the bottom of the board, the game is over
         for (let i = 0; i <= enemies.length - 1; i++) {
             if (enemies[i] > (blocks.length - (width - 1))) {
-                scoreDisplay.textContent = 'Your spacecraft was destroyed!';
+                scoreDisplay.textContent = 'Your base was destroyed!';
                 clearInterval(enemyId);
             }
         }
 
         //see if game is won
         if (enemiesKilled.length === enemies.length) {
-            scoreDisplay.textContent = 'All enemies destoyed!'
-        }
+            scoreDisplay.textContent = 'Nice Going!'
+            currentEnemyList = currentEnemyList + 1;
+            setUpBoard()
+        } 
     }
 
     //let the users spacecraft fire
