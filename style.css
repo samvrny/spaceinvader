@@ -1,3 +1,11 @@
+/* UNIVERSAL STYLES */
+
+body {
+    background-color: violet;
+    background-image: url('./images/bs.jpg');
+    background-size: cover;
+}
+
 .flex {
     display: flex
 }
@@ -6,16 +14,53 @@
     flex-wrap: wrap;
 }
 
-/* NOTE: Make bigger. For responsive, just make smaller and smaller at the right checkpoints. */
+/* MAIN GAME STYLES */
+
+main {
+    flex-direction: column;
+    align-items: center;
+}
+
+button {
+    width: 250px;
+    height: 35px;
+    margin: 20px 0px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.score h2 {
+    font-size: 45px;
+    font-weight: 600;
+}
+
+.score p {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.score {
+    margin: auto 30px;
+    text-align: center;
+    max-width: 300px;
+}
+
+.game {
+    margin-top: 40px;
+}
+
 .grid {
-    border: 2px solid green;
-    width: 450px;
-    height: 450px;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: black;
+    border: 5px solid yellow;
+    width: 600px;
+    height: 600px;
 }
 
 .grid div {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
 }
 
 .spacecraft {
@@ -23,15 +68,48 @@
 }
 
 .enemy {
-    background-color: black;
+    background-image: url('./images/space-rock.png');
+    background-size: cover;
     border-radius: 50%;
 }
 
 .shot {
+    background-image: none;
     background-color: red;
     border-radius: 0%;
 }
 
 .bullet {
     background-color: yellow;
+}
+
+/* MEDIA QUERIES (to adjust the game size to fit into smaller devices) */
+@media screen and (max-width: 724px) {
+
+    body {
+        background-image: url('./images/bs-1.jpg');
+        background-size: cover;
+    }
+
+    .grid {
+        width: 450px;
+        height: 450px;
+    }
+    
+    .grid div {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .grid {
+        width: 300px;
+        height: 300px
+    }
+
+    .grid div {
+        width: 20px;
+        height: 20px;
+    }
 }
