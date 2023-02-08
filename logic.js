@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function setUpBoard() {
 
         //if there are no more sets of enemies to use, the game is over
-        if (currentEnemyList > 1) {
+        if (currentEnemyList > 3) {
             scoreDisplay.textContent = 'Youve won the game!'
             clearInterval(enemyId);
             return;
@@ -63,25 +63,25 @@ document.addEventListener('DOMContentLoaded', () => {
         enemiesKilled = [];
         direction = 1;
 
-        //define the enemies TODO: make this an object later to be imported, with multiple sets of enemies      
+        //lists different sets of enemies to be used in the game
         enemiesToUse = [
-            // [
-            //     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20,
-            //     21, 22, 23, 24, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39
-            // ],
-            // [
-            //     0, 2, 4, 6, 8, 16, 18, 20, 22, 30, 32, 34, 36, 38
-            // ],
+            //sets of 9 start at the zero working in 15s (0,15,30, etc) and go to 9(9,24,39, etc)
             [
-                1, 2, 3,
+                0,2,4,6,8,16,18,20,22,30,32,34,36,38
             ],
             [
-                2,3,4
+                0,1,2,3,4,5,6,7,8,9,30,31,32,33,34,35,36,37,38,39,60,61,62,63,64,65,66,67,68,69
+            ],
+            [
+                0,1,2,3,4,5,6,7,8,9,15,16,17,18,19,20,
+                21,22,23,24,30,31,32,33,34,35,36,37,38,39
+            ],
+            [
+                0,3,6,9,17,20,23,31,36,38,45,48,51,54
             ]
         ]
 
-        //chose a random set of enemies to use for a game
-        // let selectedEnemies = Math.floor(Math.random() * enemiesToUse.length)
+        //checks and uses the current set of enemies
         enemies = enemiesToUse[currentEnemyList]
 
         //draw the enemies on the board
