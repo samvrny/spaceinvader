@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //if there are no more sets of enemies to use, the game is over
         if (currentEnemyList > 3) {
-            scoreDisplay.textContent = 'Youve won the game!'
+            scoreDisplay.textContent = 'Youve won the game! Final Score: ' + score
             clearInterval(enemyId);
             return;
         }
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //if the spaceship runs into an enemy, the game is over
         if (blocks[currentSpaceshipIndex].classList.contains('enemy', 'spacecraft')) {
-            scoreDisplay.textContent = 'Your spacecraft was destroyed!';
+            scoreDisplay.textContent = 'Your spacecraft was destroyed! Final Score: ' + score;
             blocks[currentSpaceshipIndex].classList.add('shot');
             clearInterval(enemyId);
         }
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //if the enemies reach the bottom of the board, the game is over
         for (let i = 0; i <= enemies.length - 1; i++) {
             if (enemies[i] > (blocks.length - (width - 1))) {
-                scoreDisplay.textContent = 'Your base was destroyed!';
+                scoreDisplay.textContent = 'Your base was destroyed! Final Score: ' + score;
                 clearInterval(enemyId);
             }
         }
