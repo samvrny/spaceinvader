@@ -5,47 +5,61 @@ document.addEventListener('DOMContentLoaded', () => {
     const scoreDisplay = document.getElementById('result');
     const playAgain = document.getElementById('play-again')
 
-    let width = 15;
-    let height = 15;
-    let currentSpaceshipIndex = 202;
-    let currentEnemyIndex = 0;
-    let enemiesKilled = [];
-    let score = 0;
-    let direction = 1;
+    //declaring global variables
+    let width;
+    let height;
+    let currentSpaceshipIndex;
+    let currentEnemyIndex;
+    let enemiesKilled;
+    let score;
+    let direction;
     let enemyId;
+    let enemies;
 
-    //define the enemies TODO: make this an object later to be imported, with multiple sets of enemies
-    const enemies = [
-        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20,
-        21, 22, 23, 24, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39
-    ];
-
+    //function to start and restart the game
     function startGame() {
-        // e.preventDefault();
-        console.log('Click');
+
+        //ends the previous game
+        clearInterval(enemyId);
+
+        blocks.forEach(block => block.classList.remove('enemy', 'spacecraft'));
+
+        //sets up a new game and/or clears an old game and resets everything
+        width = 15;
+        height = 15;
+        currentSpaceshipIndex = 202;
+        currentEnemyIndex = 0;
+        enemiesKilled = [];
+        score = 0;
+        direction = 1;
+
+        //define the enemies TODO: make this an object later to be imported, with multiple sets of enemies      
+        enemies = [
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 18, 19, 20,
+            21, 22, 23, 24, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39
+        ];
+
         //draw the enemies on the board
         enemies.forEach(enemy => blocks[currentEnemyIndex + enemy].classList.add('enemy'));
 
         //draw user spaceship 
         blocks[currentSpaceshipIndex].classList.add('spacecraft');
         enemyId = setInterval(moveEnemies, 500);
+
+        //listening for the keys to move and fire the spacecraft
+        document.addEventListener('keyup', fire);
+        document.addEventListener('keydown', maneuverSpaceship);
         playAgain.blur();
     }
 
-    // startGame()
+    //listens for the game to be started
     playAgain.addEventListener('click', startGame)
-
-    // startGame()
-    // //draw the enemies on the board
-    // enemies.forEach(enemy => blocks[currentEnemyIndex + enemy].classList.add('enemy'));
-
-    // //draw user spaceship 
-    // blocks[currentSpaceshipIndex].classList.add('spacecraft');
 
     //make the spaceship left to right
     function maneuverSpaceship(event) {
         blocks[currentSpaceshipIndex].classList.remove('spacecraft');
         switch (event.keyCode) {
+
             //left and right
             case 37:
                 if (currentSpaceshipIndex % width !== 0) currentSpaceshipIndex -= 1
@@ -151,14 +165,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // enemyId = setInterval(moveEnemies, 500)
-
-    //Listen for the game to be started
-    // playAgain.addEventListener('click', startGame)
-
-    //listen for the user to 'fire' the spacecrafts weapons
-    document.addEventListener('keyup', fire)
-
-    //listen for keys being pressed to move the spaceship
-    document.addEventListener('keydown', maneuverSpaceship)
 })
